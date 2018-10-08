@@ -14,9 +14,9 @@ namespace StringTree
 
         public bool IsReady { get; private set; }
 
-        Tree(string _fileName)
+        public Tree(string _fileName)
         {
-            root = new Node();
+            root = new Node("");
 
             IsReady = LoadText(_fileName);
         }
@@ -35,7 +35,7 @@ namespace StringTree
 
                 for (int j = 0; j < temp.Length; j++)
                 {
-                    if (temp[i].Equals(' '))
+                    if (temp[i].Equals(' ') || temp[i].Equals('\t'))
                     {
                         count++;
                     }
@@ -45,6 +45,8 @@ namespace StringTree
                     }
                 }
 
+                //Add To Tree
+                root.AddNode(new Node(temp));
                 
             }
             //check for IO errors and other exceptions

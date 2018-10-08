@@ -21,9 +21,10 @@ namespace StringTree
         public string nodeInfo;
 
         //constructor
-        public Node()
+        public Node(String _info)
         {
-            //children = new Node[3];
+            nodeInfo = _info;
+            children = new Node[3];
         }
 
 
@@ -47,6 +48,7 @@ namespace StringTree
                         {
                             isFilled = true;
                         }
+                        break;
                     }
                 }
             }

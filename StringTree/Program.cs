@@ -10,6 +10,8 @@ namespace StringTree
     {
         static void Main(string[] args)
         {
+
+            Tree stringTree = new Tree(@"C:\Users\adan.benitez\Desktop\ReedMee.txt");
         }
     }
 }
