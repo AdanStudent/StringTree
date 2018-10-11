@@ -12,6 +12,8 @@ namespace StringTree
         //Root Node
         Node root;
 
+        Node tempNode;
+
         public bool IsReady { get; private set; }
 
         public Tree(string _fileName)
@@ -27,6 +29,8 @@ namespace StringTree
             string[] lines = File.ReadAllLines(fileName);
 
             int count = 0; //keeps track of depth
+
+            List<Node> nodesToBeAdded = new List<Node>();
 
             //going through each specific line
             for (int i = 0; i < lines.Length; i++)
@@ -51,8 +55,25 @@ namespace StringTree
                     }
                 }
 
-                //Add To Tree
-                root.AddNode(new Node(temp, count));
+                
+
+                AddNodeToList(count, nodesToBeAdded, temp);
+
+                if (nodesToBeAdded[0].depth <= count && nodesToBeAdded[0].nodeInfo != temp)
+                {
+                    AddNodeToList(count, nodesToBeAdded, temp);
+                }
+                else
+                {
+                    if (count == 0)
+                    {
+                        tempNode = root;
+                    }
+
+                    AddNodesToTree(nodesToBeAdded);
+                    nodesToBeAdded.Clear();
+                }
+
                 count = 0;
             }
             //check for IO errors and other exceptions
@@ -60,9 +81,20 @@ namespace StringTree
 
         }
 
-        private void CheckForDepth(string line, int position)
+        private static void AddNodeToList(int count, List<Node> nodesToBeAdded, string temp)
         {
-
+            nodesToBeAdded.Add(new Node(temp, count));
+            
         }
+
+        private void AddNodesToTree(List<Node> _siblings)
+        {
+            foreach (var sib in _siblings)
+            {
+                //Add To Tree
+                tempNode.AddNode(sib);
+            }
+        }
+
     }
 }
