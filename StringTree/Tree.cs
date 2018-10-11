@@ -16,7 +16,7 @@ namespace StringTree
 
         public Tree(string _fileName)
         {
-            root = new Node("");
+            root = new Node("", 0);
 
             IsReady = LoadText(_fileName);
         }
@@ -26,31 +26,42 @@ namespace StringTree
             //Convert Text File to a String Array 
             string[] lines = File.ReadAllLines(fileName);
 
+            int count = 0; //keeps track of depth
+
             //going through each specific line
             for (int i = 0; i < lines.Length; i++)
             {
                 //stores string line
                 string temp = lines[i];
-                int count = 0; //keeps track of depth
 
                 for (int j = 0; j < temp.Length; j++)
                 {
-                    if (temp[i].Equals(' ') || temp[i].Equals('\t'))
+                    //this is a check for depth
+                    if (temp[j].Equals(' '))
                     {
                         count++;
                     }
+                    else if (temp[j].Equals('\t'))
+                    {
+                        count += 7; //1 tab = 8 empty spaces
+                    }
                     else
                     {
-                        break;
+                        break; //breaks out of for loop thats checking each char
                     }
                 }
 
                 //Add To Tree
-                root.AddNode(new Node(temp));
-                
+                root.AddNode(new Node(temp, count));
+                count = 0;
             }
             //check for IO errors and other exceptions
             return false;
+
+        }
+
+        private void CheckForDepth(string line, int position)
+        {
 
         }
     }

@@ -21,10 +21,11 @@ namespace StringTree
         public string nodeInfo;
 
         //constructor
-        public Node(String _info)
+        public Node(String _info, int _depth)
         {
-            nodeInfo = _info;
-            children = new Node[3];
+            this.nodeInfo = _info;
+            this.children = new Node[3];
+            this.depth = _depth;
         }
 
 
@@ -33,24 +34,34 @@ namespace StringTree
 
         public void AddNode(Node newNode)
         {
-            //checks if all children nodes are filled
-            if (!isFilled)
+            //check if children are full
+            if (!this.isFilled && newNode.depth == 0)
             {
-                //walks through all childer until an empty one is found
                 for (int i = 0; i < children.Length; i++)
                 {
                     if (children[i] == null)
                     {
                         children[i] = newNode;
-
-                        //if this is the last child to be filled change this Node's isFill to true
-                        if (i > 2)
-                        {
-                            isFilled = true;
-                        }
                         break;
                     }
                 }
+            }
+            else
+            {
+                newNode.depth -= 7;
+                for (int i = 0; i < children.Length; i++)
+                {
+                    if (children[i] != null)
+                    {
+                        this.children[i].AddNode(newNode);
+                        break;
+                    }
+                }
+            }
+
+            if (children[children.Length - 1] != null)
+            {
+                isFilled = true;
             }
 
         }//end of AddNode
