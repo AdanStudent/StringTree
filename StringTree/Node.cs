@@ -8,11 +8,11 @@ namespace StringTree
 {
     class Node
     {
-        //needs 3 other Child Nodes
+        //needs Child Nodes
         public Node [] children;
 
         //check when adding Child Nodes if those Nodes are all filled
-        private bool isFilled;
+        private bool isParent;
 
         //Stores depth of node
         public int depth;
@@ -24,7 +24,7 @@ namespace StringTree
         public Node(String _info, int _depth)
         {
             this.nodeInfo = _info;
-            this.children = new Node[3];
+            this.children = new Node[10];
             this.depth = _depth;
         }
 
@@ -34,8 +34,10 @@ namespace StringTree
 
         public void AddNode(Node newNode)
         {
+            int _depth = 0;
+
             //check if children are full
-            if (!this.isFilled && newNode.depth == 0)
+            if (newNode.depth <= 0)
             {
                 for (int i = 0; i < children.Length; i++)
                 {
@@ -49,21 +51,11 @@ namespace StringTree
             else
             {
                 newNode.depth -= 7;
-                for (int i = 0; i < children.Length; i++)
-                {
-                    if (children[i] != null)
-                    {
-                        this.children[i].AddNode(newNode);
-                        break;
-                    }
-                }
-            }
-
-            if (children[children.Length - 1] != null)
-            {
-                isFilled = true;
+                this.AddNode(newNode);
             }
 
         }//end of AddNode
+
+
     }
 }
