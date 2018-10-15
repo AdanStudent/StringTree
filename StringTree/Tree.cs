@@ -26,7 +26,7 @@ namespace StringTree
 
         public bool LoadText(string fileName)
         {
-            string[] lines;
+            string[] lines = null;
             try
             {
                 //Convert Text File to a String Array 
@@ -36,7 +36,6 @@ namespace StringTree
             catch (Exception)
             {
                 Console.WriteLine("File Name was not Vaild");
-                throw;
             }
 
             int count = 0; //keeps track of depth
