@@ -27,16 +27,7 @@ namespace StringTree
         public bool LoadText(string fileName)
         {
             string[] lines = null;
-            try
-            {
-                //Convert Text File to a String Array 
-                lines = File.ReadAllLines(fileName);
-
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("File Name was not Vaild");
-            }
+            lines = ReadInFile(fileName, lines);
 
             int count = 0; //keeps track of depth
             int parentCount = 0;
@@ -67,22 +58,7 @@ namespace StringTree
                     }
                 }
 
-
-                if (parentCount == 0) // if it's count of whitespace was 0 then add set the tempNode to the root
-                {
-                    tempNode = root;
-                }
-
-                if (count != parentCount)
-                {
-                    AddNodesToTree(nodesToBeAdded); //add nodes in list to the tree
-
-                    if (root.children[0] != null)
-                    {
-                        tempNode = nodesToBeAdded[nodesToBeAdded.Count - 1]; //keep a reference of the last node added
-                    }
-                    nodesToBeAdded.Clear(); //clear the list
-                }
+                CheckNodeDepthToParent(count, parentCount, nodesToBeAdded);
 
                 temp = temp.TrimStart('\t');
                 AddNodeToList(count, nodesToBeAdded, temp); // add node to the list with its info
@@ -95,6 +71,41 @@ namespace StringTree
             //check for IO errors and other exceptions
             return true;
 
+        }
+
+        private void CheckNodeDepthToParent(int count, int parentCount, List<Node> nodesToBeAdded)
+        {
+            if (parentCount == 0) // if it's count of whitespace was 0 then add set the tempNode to the root
+            {
+                tempNode = root;
+            }
+
+            if (count != parentCount)
+            {
+                AddNodesToTree(nodesToBeAdded); //add nodes in list to the tree
+
+                if (root.children[0] != null)
+                {
+                    tempNode = nodesToBeAdded[nodesToBeAdded.Count - 1]; //keep a reference of the last node added
+                }
+                nodesToBeAdded.Clear(); //clear the list
+            }
+        }
+
+        private static string[] ReadInFile(string fileName, string[] lines)
+        {
+            try
+            {
+                //Convert Text File to a String Array 
+                lines = File.ReadAllLines(fileName);
+
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("File Name was not Vaild");
+            }
+
+            return lines;
         }
 
         //Addes a specific node to the list
