@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,52 +11,57 @@ namespace StringTree
     {
         //needs Child Nodes
         public Node [] children;
+        //keeping reference of its parent
+        private Node _parent;
 
-        //check when adding Child Nodes if those Nodes are all filled
-        private bool isParent;
+        //keeping reference if its a parent or a leaf
+        public bool isParent;
+        public bool isItALeaf;
 
         //Stores depth of node
-        public int depth;
+        private int _depth;
 
         //Stores String
         public string nodeInfo;
 
         //constructor
-        public Node(String _info, int _depth)
+        public Node(String _info, int depth)
         {
             this.nodeInfo = _info;
             this.children = new Node[10];
-            this.depth = _depth;
+            this._depth = depth;
         }
-
-
-        //Traverse
-        
 
         public void AddNode(Node newNode)
         {
-            int _depth = 0;
-
             //check if children are full
-            if (newNode.depth <= 0)
+            if (newNode._depth <= 0)
             {
-                for (int i = 0; i < children.Length; i++)
+                for (int i = 0; i < this.children.Length; i++)
                 {
-                    if (children[i] == null)
+                    if (this.children[i] == null) //if this child is empty
                     {
-                        children[i] = newNode;
+                        newNode._parent = this; //keep a reference of its parent
+                        newNode.isItALeaf = true; //is currently a leaf
+                        this.children[i] = newNode; // add the node as a child
+                        this.isItALeaf = false; // after adding a child it is no longer a leaf
                         break;
                     }
                 }
             }
             else
             {
-                newNode.depth -= 7;
-                this.AddNode(newNode);
+                this.isParent = true;
+                newNode._depth -= 8; //decrease its "depth"
+                newNode.nodeInfo = "        " + newNode.nodeInfo;
+                this.AddNode(newNode); //calling addNode here makes this a parent of the node being passed in
             }
 
         }//end of AddNode
 
-
+        public override string ToString()
+        {
+            return this.nodeInfo;
+        }
     }
 }

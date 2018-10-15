@@ -12,6 +12,14 @@ namespace StringTree
         {
 
             Tree stringTree = new Tree(@"C:\Users\Adan\Desktop\treeTestData\people.txt");
+
+            List<Node> Leafs = stringTree.GetLeaves(stringTree.root);
+
+            List<Node> Internal = stringTree.GetInternalNodes(stringTree.root);
+
+            stringTree.WriteOutlineFile(stringTree.root);
+
+            Console.ReadKey();
         }
     }
 }
